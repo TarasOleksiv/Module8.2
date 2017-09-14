@@ -2,7 +2,7 @@ package ua.goit.java8.module82.task1;
 
 import java.util.Scanner;
 
-import static ua.goit.java8.module82.task1.Utils.*;
+import static ua.goit.java8.module82.utils.Utils.*;
 
 /**
  * Created by t.oleksiv on 14/09/2017.

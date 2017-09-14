@@ -1,4 +1,7 @@
-package ua.goit.java8.module82.task1;
+package ua.goit.java8.module82.utils;
+
+import ua.goit.java8.module82.task1.OperationBoolean;
+import ua.goit.java8.module82.task1.OperationDouble;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
