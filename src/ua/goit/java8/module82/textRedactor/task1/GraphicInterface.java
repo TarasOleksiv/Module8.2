@@ -3,9 +3,11 @@ package ua.goit.java8.module82.textRedactor.task1;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ua.goit.java8.module82.utils.FileUtils;
 
@@ -34,9 +36,15 @@ public class GraphicInterface {
         filePath.setText(FileUtils.getApplicationPath() + "\\" + FILE_PATH);
         root.getChildren().add(filePath);
 
+        Label errorLabel = new Label();
+        errorLabel.setTranslateX(20);
+        errorLabel.setTranslateY(40);
+        errorLabel.setTextFill(Color.RED);
+        root.getChildren().add(errorLabel);
+
         TextArea fileText = new TextArea();
         fileText.setTranslateX(10);
-        fileText.setTranslateY(60);
+        fileText.setTranslateY(70);
         fileText.setPrefWidth(850);
         fileText.setPrefHeight(700);
         root.getChildren().add(fileText);
@@ -48,7 +56,14 @@ public class GraphicInterface {
         load.setOnMouseClicked(event -> {
             new Thread(() -> {
                 Platform.runLater(() -> {
-                    fileText.setText(FileUtils.readTextFromFile(filePath.getText(), TEXT_CODING));
+                    errorLabel.setText("");
+                    final String filePathName = filePath.getText();
+                    if (FileUtils.fileExists(filePathName)){
+                        fileText.setText(FileUtils.readTextFromFile(filePathName, TEXT_CODING));
+                    } else {
+                        errorLabel.setText("File does not exist!");
+                        fileText.setText("");
+                    }
                 });
             }).start();
         });
