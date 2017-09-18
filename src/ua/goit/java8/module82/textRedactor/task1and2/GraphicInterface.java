@@ -119,8 +119,9 @@ public class GraphicInterface {
         fibonacci.setText("Fibonacci");
         fibonacci.setOnMouseClicked(event -> {
             new Thread(() -> {
-                //Platform.runLater(() -> {
+                Platform.runLater(() -> {
                     errorNumber.setText("");
+                });
                     final String numberToFind = textNumber.getText();
                     if (Fibonacci.checkString(numberToFind)){
                         final String filePathName = filePath.getText();
@@ -133,9 +134,11 @@ public class GraphicInterface {
                         }
                         FileUtils.saveTextToFile(Fibonacci.getFibonacciRow(Long.parseLong(numberToFind)),filePathName,TEXT_CODING);
                     } else {
-                        errorNumber.setText("Text above (\"" + numberToFind + "\") is not correct number!");
+                        Platform.runLater(()->{
+                            errorNumber.setText("Text above (\"" + numberToFind + "\") is not correct number!");
+                        });
+
                     }
-                //});
             }).start();
         });
         root.getChildren().add(fibonacci);
