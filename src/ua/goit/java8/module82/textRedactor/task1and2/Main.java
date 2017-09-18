@@ -1,4 +1,4 @@
-package ua.goit.java8.module82.textRedactor.task1;
+package ua.goit.java8.module82.textRedactor.task1and2;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

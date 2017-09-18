@@ -1,4 +1,4 @@
-package ua.goit.java8.module82.textRedactor.task1;
+package ua.goit.java8.module82.textRedactor.task1and2;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ua.goit.java8.module82.utils.Fibonacci;
 import ua.goit.java8.module82.utils.FileUtils;
 
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class GraphicInterface {
         primaryStage.setHeight(HEIGHT);
         primaryStage.setTitle("Text Redactor");
 
+        // текстове поле для вводу шляху до файлу
+        // за замовченням ініціюється як робоча директорія + FILE_PATH
         TextField filePath = new TextField();
         filePath.setTranslateX(10);
         filePath.setTranslateY(10);
@@ -36,12 +39,28 @@ public class GraphicInterface {
         filePath.setText(FileUtils.getApplicationPath() + "\\" + FILE_PATH);
         root.getChildren().add(filePath);
 
+        // текстове поле для вводу порядкового номеру числа Фібоначчі
+        TextField textNumber = new TextField();
+        textNumber.setTranslateX(700);
+        textNumber.setTranslateY(10);
+        textNumber.setPrefWidth(70);
+        root.getChildren().add(textNumber);
+
+        // ерор лейбл в якому виводиться інфа про відсутність вказаного файлу
         Label errorLabel = new Label();
         errorLabel.setTranslateX(20);
         errorLabel.setTranslateY(40);
         errorLabel.setTextFill(Color.RED);
         root.getChildren().add(errorLabel);
 
+        // ерор лейбл в якому виводиться результат перевірки чи введений текст є числом
+        Label errorNumber = new Label();
+        errorNumber.setTranslateX(600);
+        errorNumber.setTranslateY(40);
+        errorNumber.setTextFill(Color.RED);
+        root.getChildren().add(errorNumber);
+
+        // вікно в яке виводиться вміст файлу
         TextArea fileText = new TextArea();
         fileText.setTranslateX(10);
         fileText.setTranslateY(70);
@@ -49,6 +68,7 @@ public class GraphicInterface {
         fileText.setPrefHeight(700);
         root.getChildren().add(fileText);
 
+        // кнопка завантаження файлу
         Button load = new Button();
         load.setTranslateX(350);
         load.setTranslateY(10);
@@ -69,6 +89,7 @@ public class GraphicInterface {
         });
         root.getChildren().add(load);
 
+        // кнопка збереження файлу
         Button save = new Button();
         save.setTranslateX(400);
         save.setTranslateY(10);
@@ -89,6 +110,35 @@ public class GraphicInterface {
             }).start();
         });
         root.getChildren().add(save);
+
+        // кнопка пошуку числа Фібоначчі на запису послідовності у файл
+        Button fibonacci = new Button();
+        fibonacci.setTranslateX(780);
+        fibonacci.setTranslateY(10);
+        fibonacci.setPrefWidth(80);
+        fibonacci.setText("Fibonacci");
+        fibonacci.setOnMouseClicked(event -> {
+            new Thread(() -> {
+                //Platform.runLater(() -> {
+                    errorNumber.setText("");
+                    final String numberToFind = textNumber.getText();
+                    if (Fibonacci.checkString(numberToFind)){
+                        final String filePathName = filePath.getText();
+                        if (!FileUtils.fileExists(filePathName)) {
+                            try {
+                                FileUtils.createFile(filePathName);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        FileUtils.saveTextToFile(Fibonacci.getFibonacciRow(Long.parseLong(numberToFind)),filePathName,TEXT_CODING);
+                    } else {
+                        errorNumber.setText("Text above (\"" + numberToFind + "\") is not correct number!");
+                    }
+                //});
+            }).start();
+        });
+        root.getChildren().add(fibonacci);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
