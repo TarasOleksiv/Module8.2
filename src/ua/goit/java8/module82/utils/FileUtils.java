@@ -45,4 +45,20 @@ public class FileUtils {
         }
         return result;
     }
+
+    public static boolean fileExists(String filePathString){
+        File f = new File(filePathString);
+        if(f.exists() && !f.isDirectory()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void createFile(String filePathString) throws IOException {
+        File f = new File(filePathString);
+        f.getParentFile().mkdirs();
+        f.createNewFile();
+    }
+
 }

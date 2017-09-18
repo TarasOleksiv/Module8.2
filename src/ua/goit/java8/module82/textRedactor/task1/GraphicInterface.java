@@ -9,6 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ua.goit.java8.module82.utils.FileUtils;
 
+import java.io.IOException;
+
 /**
  * Created by Taras on 17.09.2017.
  */
@@ -59,7 +61,15 @@ public class GraphicInterface {
         save.setOnMouseClicked(event -> {
             new Thread(() -> {
                 Platform.runLater(() -> {
-                    FileUtils.saveTextToFile(fileText.getText(),filePath.getText(),TEXT_CODING);
+                    final String filePathName = filePath.getText();
+                    if (!FileUtils.fileExists(filePathName)) {
+                        try {
+                            FileUtils.createFile(filePathName);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    FileUtils.saveTextToFile(fileText.getText(),filePathName,TEXT_CODING);
                 });
             }).start();
         });
