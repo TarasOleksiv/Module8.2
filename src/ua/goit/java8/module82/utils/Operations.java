@@ -10,7 +10,7 @@ import java.util.concurrent.FutureTask;
  * Created by t.oleksiv on 14/09/2017.
  */
 public class Operations {
-    public static double getResult(OperationDouble operationDouble){
+    public double getResult(OperationDouble operationDouble){
         FutureTask<Double> futureTask = new FutureTask<Double>(operationDouble);
 
         Thread thread = new Thread(futureTask);
@@ -28,7 +28,7 @@ public class Operations {
         return result;
     }
 
-    public static boolean getResult(OperationBoolean operationBoolean){
+    public boolean getResult(OperationBoolean operationBoolean){
         FutureTask<Boolean> futureTask = new FutureTask<Boolean>(operationBoolean);
 
         Thread thread = new Thread(futureTask);

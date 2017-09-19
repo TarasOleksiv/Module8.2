@@ -19,24 +19,33 @@ import java.io.IOException;
  */
 public class GraphicInterface {
 
-    private static Pane root = new Pane();
+    private Stage primaryStage;
+    private Pane root = new Pane();
     private static final int WIDTH = 900;
     private static final int HEIGHT = 825;
     private static final String TEXT_CODING = "CP1251";
     private static final String FILE_PATH = "files\\text.txt";
 
-    public static void draw(Stage primaryStage) {
+    public GraphicInterface(Stage primaryStage){
+        this.primaryStage = primaryStage;
+        draw(primaryStage);
+    }
+
+    public void draw(Stage primaryStage) {
         primaryStage.setWidth(WIDTH);
         primaryStage.setHeight(HEIGHT);
         primaryStage.setTitle("Text Redactor");
 
+        FileUtils fileUtils = new FileUtils();
+        Fibonacci fibonacciUtils = new Fibonacci();
+
         // текстове поле для вводу шляху до файлу
-        // за замовченням ініціюється як робоча директорія + FILE_PATH
+        // за замовчуванням ініціюється як робоча директорія + FILE_PATH
         TextField filePath = new TextField();
         filePath.setTranslateX(10);
         filePath.setTranslateY(10);
         filePath.setPrefWidth(300);
-        filePath.setText(FileUtils.getApplicationPath() + "\\" + FILE_PATH);
+        filePath.setText(fileUtils.getApplicationPath() + "\\" + FILE_PATH);
         root.getChildren().add(filePath);
 
         // текстове поле для вводу порядкового номеру числа Фібоначчі
@@ -78,8 +87,8 @@ public class GraphicInterface {
                 Platform.runLater(() -> {
                     errorLabel.setText("");
                     final String filePathName = filePath.getText();
-                    if (FileUtils.fileExists(filePathName)){
-                        fileText.setText(FileUtils.readTextFromFile(filePathName, TEXT_CODING));
+                    if (fileUtils.fileExists(filePathName)){
+                        fileText.setText(fileUtils.readTextFromFile(filePathName, TEXT_CODING));
                     } else {
                         errorLabel.setText("File does not exist!");
                         fileText.setText("");
@@ -98,14 +107,14 @@ public class GraphicInterface {
             new Thread(() -> {
                 Platform.runLater(() -> {
                     final String filePathName = filePath.getText();
-                    if (!FileUtils.fileExists(filePathName)) {
+                    if (!fileUtils.fileExists(filePathName)) {
                         try {
-                            FileUtils.createFile(filePathName);
+                            fileUtils.createFile(filePathName);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                    FileUtils.saveTextToFile(fileText.getText(),filePathName,TEXT_CODING);
+                    fileUtils.saveTextToFile(fileText.getText(),filePathName,TEXT_CODING);
                 });
             }).start();
         });
@@ -123,16 +132,16 @@ public class GraphicInterface {
                     errorNumber.setText("");
                 });
                     final String numberToFind = textNumber.getText();
-                    if (Fibonacci.checkString(numberToFind)){
+                    if (fibonacciUtils.checkString(numberToFind)){
                         final String filePathName = filePath.getText();
-                        if (!FileUtils.fileExists(filePathName)) {
+                        if (!fileUtils.fileExists(filePathName)) {
                             try {
-                                FileUtils.createFile(filePathName);
+                                fileUtils.createFile(filePathName);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                        FileUtils.saveTextToFile(Fibonacci.getFibonacciRow(Long.parseLong(numberToFind)),filePathName,TEXT_CODING);
+                        fileUtils.saveTextToFile(fibonacciUtils.getFibonacciRow(Long.parseLong(numberToFind)),filePathName,TEXT_CODING);
                     } else {
                         Platform.runLater(()->{
                             errorNumber.setText("Text above (\"" + numberToFind + "\") is not correct number!");

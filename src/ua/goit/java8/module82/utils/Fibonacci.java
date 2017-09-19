@@ -11,7 +11,7 @@ import java.math.BigInteger;
 
 public class Fibonacci {
 
-    public static BigInteger getFibonacciNumber(long n){
+    public BigInteger getFibonacciNumber(long n){
         if (n == 0){
             return BigInteger.valueOf(0);
         } else if (n == 1){
@@ -29,7 +29,7 @@ public class Fibonacci {
         }
     }
 
-    public static String getFibonacciRow(long n){
+    public String getFibonacciRow(long n){
         final String NUMBER0 = "0";
         final String NUMBER1 = "0, 1";
         final int countEndOfLine = 5;
@@ -54,16 +54,16 @@ public class Fibonacci {
         }
     }
 
-    public static boolean isNumber(String string) {
+    public boolean isNumber(String string) {
         if (string == null) return false;
         return string.matches("^-?\\d+$");
     }
 
-    public static boolean isNegative(Long n){
+    public boolean isNegative(Long n){
         return ((n < 0)?true:false);
     }
 
-    public static boolean checkString(String string){
+    public boolean checkString(String string){
         return ((isNumber(string)&&(!isNegative(Long.parseLong(string))))?true:false);
     }
 }

@@ -68,12 +68,12 @@ public class Images {
         images.add("http://www.technocrazed.com/wp-content/uploads/2016/05/15-Picturesque-Villages-That-Seem-Straight-Out-Of-A-Fairy-Tale-1-13-640x455.jpg");
     }
 
-    public static ArrayList<String> getImages(){
+    public ArrayList<String> getImages(){
         return images;
     }
 
     // створення масиву рендомних лінків
-    public static ArrayList<String> getRandomImages(){
+    public ArrayList<String> getRandomImages(){
         Random random = new Random();
         ArrayList<String> result = new ArrayList<>(25);
         for (int i = 0; i < 25; i++){

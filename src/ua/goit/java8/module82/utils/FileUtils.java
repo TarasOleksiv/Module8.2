@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class FileUtils {
 
-    public static String readTextFromFile(String filePath, String textCoding){
+    public String readTextFromFile(String filePath, String textCoding){
         StringBuffer buffer = new StringBuffer();
         try (
                 FileInputStream myFile = new FileInputStream(filePath);
@@ -26,7 +26,7 @@ public class FileUtils {
         return buffer.toString();
     }
 
-    public static void saveTextToFile(String stringToWrite, String filePath, String textCoding){
+    public void saveTextToFile(String stringToWrite, String filePath, String textCoding){
         try (FileOutputStream myFile = new FileOutputStream(filePath);
              Writer out = new BufferedWriter(
                      new OutputStreamWriter(myFile, textCoding));) {
@@ -36,7 +36,7 @@ public class FileUtils {
         }
     }
 
-    public static String getApplicationPath(){
+    public String getApplicationPath(){
         String result = "N/A";
         try {
             result = new File(".").getCanonicalPath();
@@ -46,7 +46,7 @@ public class FileUtils {
         return result;
     }
 
-    public static boolean fileExists(String filePathString){
+    public boolean fileExists(String filePathString){
         File f = new File(filePathString);
         if(f.exists() && !f.isDirectory()) {
             return true;
@@ -55,7 +55,7 @@ public class FileUtils {
         }
     }
 
-    public static void createFile(String filePathString) throws IOException {
+    public void createFile(String filePathString) throws IOException {
         File f = new File(filePathString);
         f.getParentFile().mkdirs();
         f.createNewFile();

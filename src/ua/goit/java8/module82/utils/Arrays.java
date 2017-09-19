@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Arrays {
     // заповнення ArrayList - працює дуже довго
-    public static ArrayList<Integer> getArrayList(int size) {
+    public ArrayList<Integer> getArrayList(int size) {
         System.out.println("Started filling ArrayList...");
         final ArrayList<Integer> result = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
@@ -20,7 +20,7 @@ public class Arrays {
 
 
     // заповнення масиву багатьма потоками - працює довше
-    public static int[] getArrayMultiThread(int size) throws InterruptedException {
+    public int[] getArrayMultiThread(int size) throws InterruptedException {
         int coreCount = Runtime.getRuntime().availableProcessors();
         int length = size / coreCount;
         System.out.println("Started filling Array...");
@@ -49,7 +49,7 @@ public class Arrays {
     }
 
     // заповнення масиву одним потоком - працює швидше
-    public static int[] getArraySingleThread(int size){
+    public int[] getArraySingleThread(int size){
         System.out.println("Started filling Array...");
         int[] result = new int[size];
         for (int i = 0; i < size; i++) {
@@ -60,7 +60,7 @@ public class Arrays {
     }
 
     // метод підрахунки суми в масиві з лівою та правою межею
-    private static double getSum(int[] array, int left, int right) {
+    private double getSum(int[] array, int left, int right) {
         double sum = 0;
         for(int i = left; i < right; i++)
             sum += Math.sin(array[i]) + Math.cos(array[i]);
@@ -69,7 +69,7 @@ public class Arrays {
 
     // метод підрахунку суми в масиві розбиттям на паралельні потоки
     // при цьому масив ділиться на стільки частин, скільки вказано потоків
-    public static double getMultipleThreadsSum(int[] array, int count) throws InterruptedException {
+    public double getMultipleThreadsSum(int[] array, int count) throws InterruptedException {
         List<Thread> threads = new ArrayList<>(count);
         final double[] sums = new double[count];
 

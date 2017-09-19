@@ -22,16 +22,19 @@ import java.util.ArrayList;
 
 public class GraphicInterface {
     private Stage primaryStage;
-    private static Pane root = new Pane();
+    private Pane root = new Pane();
     public static final int WIDTH = 900;
     public static final int HEIGHT = 825;
 
-    public static void draw(Stage primaryStage) {
+    public GraphicInterface(Stage primaryStage){
+        this.primaryStage = primaryStage;
+        draw(primaryStage);
+    }
+
+    public void draw(Stage primaryStage) {
         primaryStage.setWidth(WIDTH);
         primaryStage.setHeight(HEIGHT);
         primaryStage.setTitle("Images");
-
-        // BufferedImage img = ImageIO.read(url);
 
         Button refresh = new Button();
         refresh.setTranslateX(10);
@@ -54,7 +57,7 @@ public class GraphicInterface {
         primaryStage.show();
     }
 
-    private static void drawImage(URL url, double x, double y) throws IOException {
+    private void drawImage(URL url, double x, double y) throws IOException {
         Image image = new Image(url.openStream());
         ImageView imageView = new ImageView(image);
         Platform.runLater(() -> {
@@ -68,7 +71,7 @@ public class GraphicInterface {
     }
 
     // завантажуєм кожну картинку окремим потоком
-    private static void drawImages(ArrayList<URL> urls) throws IOException {
+    private void drawImages(ArrayList<URL> urls) throws IOException {
         int n = 0;
         for (int i = 0; i < 5; i++){
             for (int j = 0; j < 5; j++){
@@ -88,8 +91,9 @@ public class GraphicInterface {
         }
     }
 
-    private static ArrayList<URL> getURLs() throws MalformedURLException {
-        ArrayList<String> imageLinks = Images.getRandomImages();
+    private ArrayList<URL> getURLs() throws MalformedURLException {
+        Images imagesSet = new Images();
+        ArrayList<String> imageLinks = imagesSet.getRandomImages();
 
         ArrayList<URL> imageUrls = new ArrayList<>(imageLinks.size());
         for (int i = 0; i < imageLinks.size(); i++){

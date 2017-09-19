@@ -1,8 +1,9 @@
 package ua.goit.java8.module82.task2;
 
+import ua.goit.java8.module82.utils.Arrays;
 import ua.goit.java8.module82.utils.SeriesRun;
 import java.util.Scanner;
-import static ua.goit.java8.module82.utils.Arrays.getArraySingleThread;
+
 
 /**
  * Created by t.oleksiv on 14/09/2017.
@@ -24,7 +25,8 @@ public class Main {
         //int[] array = getArrayMultiThread(80000000);
 
         // заповнюєм масив одним потоком
-        int[] array = getArraySingleThread(80000000);
+        Arrays arrays = new Arrays();
+        int[] array = arrays.getArraySingleThread(80000000);
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("Filling Array duration: " + duration);
 
@@ -32,7 +34,8 @@ public class Main {
         // Обчислюєм суму режимом Thread (кожний потік запускається по-черзі один після одного)
         System.out.println();
         System.out.println("******** Method \"Thread\" *********");
-        SeriesRun.work(n, array);
+
+        SeriesRun seriesRunThread = new SeriesRun(n,array);
 
         // очікуєм на закінчення виконання попереднього набору потоків
         Thread thread = new Thread(()->{
@@ -52,7 +55,9 @@ public class Main {
         // Обчислюєм суму режимом ThreadPool (кожний потік запускається по-черзі один після одного)
         System.out.println();
         System.out.println("******** Method \"ThreadPool\" *********");
-        SeriesRun.getThreadPool(n,array);
+
+        SeriesRun seriesRunThreadPool = new SeriesRun();
+        seriesRunThreadPool.getThreadPool(n,array);
 
         // очікуєм на закінчення виконання попереднього набору потоків ThreadPool
         Thread threadPool = new Thread(()->{

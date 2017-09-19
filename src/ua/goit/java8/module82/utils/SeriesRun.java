@@ -4,18 +4,26 @@ import ua.goit.java8.module82.task2.Main;
 
 import java.util.concurrent.*;
 
-import static ua.goit.java8.module82.utils.Arrays.getMultipleThreadsSum;
 
 /**
  * Created by Taras on 15.09.2017.
  */
 public class SeriesRun extends Thread {
-    private static int currentMax = 1;
-    private final int[] array;
+    private int[] array;
     private int mainId;
-    private final Object waitObject;
+    private Object waitObject;
+    private int countThreads;
     private static long durationThreads = 0;
-    private static int countThreads;
+    private static int currentMax = 1;
+
+    // 3 конструктори
+    public SeriesRun(){}
+
+    public SeriesRun(int countThreads, int[] array){
+        this.countThreads = countThreads;
+        this.array = array;
+        work(countThreads,array);
+    }
 
     public SeriesRun(int mainId, Object waitObject, int[] array, int countThreads){
         this.mainId = mainId;
@@ -23,9 +31,10 @@ public class SeriesRun extends Thread {
         this.array = array;
         this.countThreads = countThreads;
     }
+    // кінець конструкторів
 
-    // статичний метод; викликаєм його з мейна для створення масиву потоків
-    public static void work(int countThreads, int[] array){
+    // метод для створення масиву потоків
+    private void work(int countThreads, int[] array){
         durationThreads = 0;
         Object waitObject = new Object();
         for (int i = currentMax; i <= countThreads; i++){
@@ -59,7 +68,7 @@ public class SeriesRun extends Thread {
 
     // розпаралелюєм підрахунок суми на потоки в залежності від кількості ядер
     // цей метод використовується як для 1-го способу Thread так і для другого способу ThreadPool
-    private static double calculateSum(int[] array, int mainId, boolean isThreadPool) throws InterruptedException {
+    private double calculateSum(int[] array, int mainId, boolean isThreadPool) throws InterruptedException {
         System.out.println();
         System.out.println("********************* Thread # " + mainId + " ***************************");
         System.out.println("Calculating sum of sin(x) + cos(x) for the whole array ...");
@@ -68,7 +77,8 @@ public class SeriesRun extends Thread {
         //System.out.println("Count of cores: " + coreCount);
 
         // викликаєм метод підрахунку суми через розпаралелені потоки
-        double sum = getMultipleThreadsSum(array,coreCount);
+        Arrays arraysMultiple = new Arrays();
+        double sum = arraysMultiple.getMultipleThreadsSum(array,coreCount);
         long duration = System.currentTimeMillis() - startTime;
         durationThreads += duration;
         System.out.println("Sum = " + sum);
@@ -85,8 +95,8 @@ public class SeriesRun extends Thread {
         return sum;
     }
 
-    // статичний метод; викликаєм його з мейна для запуску ThreadPool
-    public static void getThreadPool(int n, int[] array){
+    // метод для запуску ThreadPool
+    public void getThreadPool(int n, int[] array){
         durationThreads = 0;
         countThreads = n;
         ExecutorService threadPool = Executors.newFixedThreadPool(1);
